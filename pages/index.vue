@@ -1,15 +1,10 @@
 <template>
   <main>
-    <h1>Notion Nuxt Todo</h1>
+    <h1>Notion Nuxt - Nuxt Nation 2021</h1>
+    <h2>Tasks</h2>
     <ul>
-      <li v-for="task in taskList" :key="task.id">
-        <input type="checkbox" v-model="task.properties.Status.checkbox" />
-        <p>
-          {{ task.properties.Name.title[0].plain_text }} -
-          {{ task.properties.Tags }}
-        </p>
-        <h3>Data</h3>
-        <p>{{ task }}</p>
+      <li v-for="item in notionData.results" :key="item.id">
+        {{ item.properties.Name.title[0]['plain_text'] }} -
       </li>
     </ul>
   </main>
@@ -18,14 +13,14 @@
 <script>
 export default {
   data: () => ({
-    taskList: [],
+    notionData: [],
   }),
   async mounted() {
-    const response = await fetch('/.netlify/functions/tasks').then((res) =>
+    const response = await fetch('/.netlify/functions/notion').then((res) =>
       res.json()
     )
 
-    this.taskList = response.results
+    this.notionData = response
   },
 }
 </script>
